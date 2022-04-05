@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "codeleapcodingtest",
+    "slug": "codeleapcodingtest",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "codeleapcodingtest"
+}
