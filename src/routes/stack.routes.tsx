@@ -3,6 +3,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { Signup } from '../screens/Signup';
+import { Home } from '../screens/Home';
 
 const { Navigator, Screen} = createStackNavigator();
 
@@ -10,7 +11,7 @@ const { Navigator, Screen} = createStackNavigator();
 export function StackRoutes() {
     return (
         <Navigator
-            initialRouteName="Splash"
+            initialRouteName="Home"
             screenOptions={{
                 headerShown: false,
                 // tabBarActiveTintColor: theme.colors.secondary,
@@ -25,6 +26,10 @@ export function StackRoutes() {
             <Screen
                 name="Signup"
                 component={Signup}
+            />
+            <Screen
+                name="Home"
+                component={Home}
             />
         </Navigator>
     );

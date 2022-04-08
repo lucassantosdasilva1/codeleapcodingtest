@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TouchableWithoutFeedback,  Keyboard, Alert} from 'react-native';
+
+import { Input } from '../../components/Form/Input';
+import { Button } from '../../components/Form/Button';
 
 import {
   Container,
@@ -6,23 +10,51 @@ import {
   WelcomeText,
   Content,
   UsernameForm,
+  ButtonWrapper,
   Footer,
 } from './styles';
 
+
 export function Signup() {
+  const [username, setUsername] = useState('');
+  
+  function handleSubmit(){
+    if(!username) {
+      return Alert.alert('Insira um Username')
+    }
+
+    console.log(username);
+
+  }
   return (
-    <Container>
-        <Header>
-            <WelcomeText>Hello. Welcome Back</WelcomeText>
-        </Header>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Container>
+          <Header>
+              <WelcomeText>Hello.{'\n'}Welcome Back</WelcomeText>
+          </Header>
 
-        <Content>
-            <UsernameForm></UsernameForm>
-        </Content>
+          <Content>
+              <UsernameForm>
+                <Input
+                  placeholder="Username"
 
-        <Footer>
-            
-        </Footer>
-    </Container>
+                  keyboardType="email-address"
+                  onChangeText={text =>  setUsername(text.toLowerCase())}
+                />
+              </UsernameForm>
+
+              <ButtonWrapper>
+                <Button 
+                  title="Entrar"  
+                  onPress={handleSubmit}
+                  />
+              </ButtonWrapper>
+          </Content>
+
+          <Footer>
+              
+          </Footer>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 }
