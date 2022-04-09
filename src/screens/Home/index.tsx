@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {useState} from 'react';
+
 import { FlatList } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
+
 import { CreatePost } from '../../components/CreatePost';
 import { Post } from '../../components/Post';
+
+import { api } from '../../services/api';
+import { PostDTO } from "../../DTO/PostDTO";
 
 import {
   Container,
@@ -11,23 +17,50 @@ import {
   AppTitleWrap
 } from './styles';
 
+
+// export async function Api(post : PostProps) {
+//   try {
+//       const result = await axios.post("https://dev.codeleap.co.uk/careers/", post);
+//       console.log(result);
+//   } catch (error) {
+//       console.log(error);
+//   }
+// }
+
 export function Home() {
+  const [PostsData, setPostsData] = useState<PostDTO[]>([]);
+
+  useEffect(() => {
+    async function GetPosts() {
+      try {
+         const { data:{results} } = await api.get("/");
+         setPostsData(results);
+      } catch (error) {
+          console.log(error);
+      }
+    }
+    
+    GetPosts();
+  },[])
+
+
   return (
     <Container>
-        <AppTitleWrap/>
-        <Header>
-            <CreatePost/>
-        </Header>
-        <Content>
-                <FlatList
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle= {{
-                    paddingBottom: getBottomSpace()
-                }}
-                data={[1,2,3,4,5]}
-                renderItem={() => <Post/>}
-                />
-        </Content>
+      <AppTitleWrap />
+      <Header>
+        <CreatePost />
+      </Header>
+      <Content>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: getBottomSpace()
+          }}
+          data={PostsData}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({item}) => <Post data={item} />}
+        />
+      </Content>
     </Container>
   );
 }
