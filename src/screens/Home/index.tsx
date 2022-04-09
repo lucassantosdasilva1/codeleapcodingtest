@@ -17,16 +17,6 @@ import {
   AppTitleWrap
 } from './styles';
 
-
-// export async function Api(post : PostProps) {
-//   try {
-//       const result = await axios.post("https://dev.codeleap.co.uk/careers/", post);
-//       console.log(result);
-//   } catch (error) {
-//       console.log(error);
-//   }
-// }
-
 export function Home() {
   const [PostsData, setPostsData] = useState<PostDTO[]>([]);
 
@@ -39,8 +29,9 @@ export function Home() {
           console.log(error);
       }
     }
-    
     GetPosts();
+
+
   },[])
 
 

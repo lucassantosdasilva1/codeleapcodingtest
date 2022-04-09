@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { PostDTO } from '../../DTO/PostDTO';
@@ -25,9 +25,35 @@ interface Props {
 }
 
 export function Post({data : {title, username, created_datetime, content}} : Props) {
-    const [userLogged, setUserLogged] = useState(true);
+    const [userLogged, setUserLogged] = useState<boolean>();
+    const [userTyped, setUserTyped] = useState<string>("");
+    const [userOfApi, setuserOfApi] = useState<string>("");
 
-    // const {user} = Store.getState()
+    
+    useEffect(() => {
+        const {user} = Store.getState()
+        console.log("userrr:  ",user);
+        
+        function getStore(){
+
+            function tostring(user){
+                const x = user.toString();
+                return x;
+            }
+
+            setUserTyped(tostring(user))
+            setuserOfApi(tostring(username))
+
+            // console.log("userAPI: ",userOfApi);
+            // console.log("userTyped: ",userTyped);
+
+            if(userOfApi == userTyped ) {
+                setUserLogged(true)    
+            }
+        }
+
+        getStore()
+    },[])
 
     // setUserLogged(user);
 

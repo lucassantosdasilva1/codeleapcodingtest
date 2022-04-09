@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableWithoutFeedback,  Keyboard, Alert} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
@@ -16,8 +17,6 @@ import {
   ButtonWrapper,
   Footer,
 } from './styles';
-import { Routes } from '../../routes';
-import { useNavigation } from '@react-navigation/native';
 
 export function Signup() {
   const [username, setUsername] = useState<string | null >(null);
