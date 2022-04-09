@@ -11,7 +11,7 @@ const { Navigator, Screen} = createStackNavigator();
 export function StackRoutes() {
     return (
         <Navigator
-            initialRouteName="Home"
+            initialRouteName="Signup"
             screenOptions={{
                 headerShown: false,
                 // tabBarActiveTintColor: theme.colors.secondary,

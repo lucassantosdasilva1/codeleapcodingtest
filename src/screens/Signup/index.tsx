@@ -4,6 +4,9 @@ import { TouchableWithoutFeedback,  Keyboard, Alert} from 'react-native';
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
 
+import { Store } from '../../redux/Store';
+import { changeUser} from '../../redux/Reducers';
+
 import {
   Container,
   Header,
@@ -13,19 +16,32 @@ import {
   ButtonWrapper,
   Footer,
 } from './styles';
-
+import { Routes } from '../../routes';
+import { useNavigation } from '@react-navigation/native';
 
 export function Signup() {
-  const [username, setUsername] = useState('');
-  
+  const [username, setUsername] = useState<string | null >(null);
+
+  const navigator = useNavigation();
+
+  function handleSetUsername(text : string){
+    setUsername(text);
+  }
+
   function handleSubmit(){
     if(!username) {
       return Alert.alert('Insira um Username')
     }
 
-    console.log(username);
+    Store.dispatch(changeUser(username))
 
+    const {isLogged} = Store.getState()
+    
+    if(isLogged){
+      navigator.navigate("Home");
+    }
   }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
@@ -39,7 +55,7 @@ export function Signup() {
                   placeholder="Username"
 
                   keyboardType="email-address"
-                  onChangeText={text =>  setUsername(text.toLowerCase())}
+                  onChangeText={text => handleSetUsername(text)}
                 />
               </UsernameForm>
 
