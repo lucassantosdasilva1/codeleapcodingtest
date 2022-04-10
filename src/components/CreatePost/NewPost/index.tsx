@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-// import { Button } from '../../Form/Button';
+import React, { useEffect, useState } from 'react';
 import { Question } from '../styles';
 
-// import { Post } from '../../../services/api';
+import { store, RootState } from "../../../redux/index"
+import { useSelector } from 'react-redux';
+
+import { AddPosts, PostProps } from '../../../services/api';
 
 import {
   Container,
@@ -17,26 +19,33 @@ import {
   ButtonText,
 
 } from './styles';
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 interface Props {
     closeModal: () => void;
 }
 
 export function NewPost({closeModal} : Props ) {
-    const [username, setUsername] = useState<string | null>(null);
-    const [title, setTitle] = useState<string | null>(null);
-    const [content, setContent] = useState<string | null>(null);
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+
+    const usernameTyped = useSelector((state : RootState) => state.reducersList.userSliceReducer.username)
+
+    const data : PostProps = {
+        username: usernameTyped,
+        title: title,
+        content: content
+    }
 
     function handlePost(){
         closeModal()
-
-    //     Post({
-    //         username: "lucassantos",
-    //         title: "tituloqualquer",
-    //         content: "string"
-    //     })
+        AddPosts(data)
     }
+   
+
+    // useEffect(() => {
+        
+  
+    // },[data])
 
     return (
     <Container>
@@ -54,7 +63,10 @@ export function NewPost({closeModal} : Props ) {
             </ContentWrap>
 
             <Footer>
-                <Button onPress={handlePost}>
+                <Button onPress={() => 
+                    handlePost
+
+                }>
                     <ButtonText>Coment</ButtonText>
                 </Button>
             </Footer>

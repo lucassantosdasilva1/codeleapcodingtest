@@ -43,7 +43,10 @@ export const PostManagement = styled.View`
     margin-right: 15px;
 `;
 
-export const Button = styled(BorderlessButton)`
+export const DeleteButton = styled(BorderlessButton)`
+
+`;
+export const EditButton = styled(BorderlessButton)`
 
 `;
 

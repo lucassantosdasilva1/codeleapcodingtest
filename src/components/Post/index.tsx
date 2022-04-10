@@ -6,12 +6,15 @@ import { PostDTO } from '../../DTO/PostDTO';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/index';
 
+import { DeletePost } from '../../services/api';
+
 import {
   Container,
   HeaderPost,
   Title,
   PostManagement,
-  Button,
+  DeleteButton,
+  EditButton,
   TrashIcon,
   EditIcon,
   ContentPostWrap,
@@ -23,20 +26,30 @@ import {
 } from './styles';
 
 
+
 interface Props {
     data: PostDTO;
 }
 
-export function Post({data : {title, username, created_datetime, content}} : Props) {
+export function Post({data : {id, title, username, created_datetime, content}} : Props) {
     const [isSameUser, setIsSameUser] = useState<boolean>();
 
     const store = useSelector((state: RootState) => state.reducersList.userSliceReducer)
     const usernameTyped = store.username;
     const usernameAPI = username;
 
+    
+
+    function handleEdit() {
+
+    }
+
     useEffect(() => {
         if( usernameTyped.toLowerCase() === usernameAPI.toLowerCase()) {
             setIsSameUser(true)    
+        }
+        function handleDelete(id : number) {
+            DeletePost(id);
         }
     },[])
 
@@ -48,13 +61,13 @@ export function Post({data : {title, username, created_datetime, content}} : Pro
             { 
                 isSameUser && 
                 <PostManagement>
-                    <Button>
+                    <DeleteButton onPress={() => handleDelete(id)}>
                         <TrashIcon name="trash-bin" size={20} color="white"/>
-                    </Button>
+                    </DeleteButton>
 
-                    <Button>
+                    <EditButton onPress={handleEdit}>
                         <EditIcon name="edit" size={18} color="white"/>
-                    </Button>
+                    </EditButton>
                 </PostManagement> 
             }
         </HeaderPost>
