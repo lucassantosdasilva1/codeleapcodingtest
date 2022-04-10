@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { TouchableWithoutFeedback,  Keyboard, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/';
+import { changeUserAction } from '../../redux/userSlice';
+
+
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-
-import { Store } from '../../redux/Store';
-import { changeUser} from '../../redux/Reducers';
 
 import {
   Container,
@@ -19,23 +21,20 @@ import {
 } from './styles';
 
 export function Signup() {
-  const [username, setUsername] = useState<string | null >(null);
-
+  const dispatch = useDispatch();
+  const store = useSelector((state: RootState) => state.reducersList.userSliceReducer)
+  
   const navigator = useNavigation();
 
-  function handleSetUsername(text : string){
-    setUsername(text);
-  }
-
   function handleSubmit(){
-    if(!username) {
+    if(store.username == "") {
       return Alert.alert('Insira um Username')
     }
 
-    Store.dispatch(changeUser(username))
+    const {isLogged} = store;
+  
+    console.log("depois ",store.username)
 
-    const {isLogged} = Store.getState()
-    
     if(isLogged){
       navigator.navigate("Home");
     }
@@ -54,7 +53,7 @@ export function Signup() {
                   placeholder="Username"
 
                   keyboardType="email-address"
-                  onChangeText={text => handleSetUsername(text)}
+                  onChangeText={text => dispatch(changeUserAction(text))}
                 />
               </UsernameForm>
 

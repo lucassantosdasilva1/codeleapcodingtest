@@ -7,8 +7,11 @@ import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { CreatePost } from '../../components/CreatePost';
 import { Post } from '../../components/Post';
 
-import { api } from '../../services/api';
+import { api, GetPosts } from '../../services/api';
 import { PostDTO } from "../../DTO/PostDTO";
+
+import { setPostsAction } from '../../redux/postSlice';
+import { useDispatch } from 'react-redux';
 
 import {
   Container,
@@ -19,17 +22,15 @@ import {
 
 export function Home() {
   const [PostsData, setPostsData] = useState<PostDTO[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    async function GetPosts() {
-      try {
-         const { data:{results} } = await api.get("/");
-         setPostsData(results);
-      } catch (error) {
-          console.log(error);
-      }
+    async function setPosts(){
+      const result = await GetPosts();
+      setPostsData(result);
+      dispatch( setPostsAction(result) )
     }
-    GetPosts();
+    setPosts()
 
 
   },[])

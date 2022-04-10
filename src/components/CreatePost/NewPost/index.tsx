@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import { Button } from '../../Form/Button';
 import { Question } from '../styles';
 
-import { Post } from '../../../services/api';
+// import { Post } from '../../../services/api';
 
 import {
   Container,
@@ -31,11 +31,11 @@ export function NewPost({closeModal} : Props ) {
     function handlePost(){
         closeModal()
 
-        Post({
-            username: "lucassantos",
-            title: "tituloqualquer",
-            content: "string"
-        })
+    //     Post({
+    //         username: "lucassantos",
+    //         title: "tituloqualquer",
+    //         content: "string"
+    //     })
     }
 
     return (
