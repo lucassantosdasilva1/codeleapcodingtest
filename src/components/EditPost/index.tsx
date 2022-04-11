@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Question } from '../styles';
 
-import { store, RootState } from "../../../redux/index"
+import { Question } from '../CreatePost/styles';
+
+import { store, RootState } from "../../redux/index"
 import { useSelector } from 'react-redux';
 
-import { AddPosts, PostProps } from '../../../services/api';
+import { EditPostAPI, EditProps } from '../../services/api';
 
 import {
   Container,
@@ -20,26 +21,29 @@ import {
 
 } from './styles';
 
+
 interface Props {
+    id: number,
+    titleToEdit?: string;
+    commentToEdit?: string;
     buttonTitle: string;
     closeModal: () => void;
 }
 
-export function NewPost({closeModal, buttonTitle} : Props ) {
+export function EditPost({ id,closeModal, buttonTitle, titleToEdit, commentToEdit} : Props ) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
     const usernameTyped = useSelector((state : RootState) => state.reducersList.userSliceReducer.username)
 
-    const dataToSent : PostProps = {
-        username: usernameTyped,
+    const dataToSent : EditProps = {
         title: title,
         content: content
     }
 
     function handlePost(){
         closeModal()
-        AddPosts(dataToSent)
+        EditPostAPI( id, dataToSent)
     }
 
     return (
@@ -49,12 +53,12 @@ export function NewPost({closeModal, buttonTitle} : Props ) {
 
             <Label>Title</Label>
             <TitleWrap>
-                <TitleInput placeholder="Type your post title here" onChangeText={setTitle}></TitleInput>
+                <TitleInput placeholder="Type your post title here" onChangeText={setTitle}>{titleToEdit}</TitleInput>
             </TitleWrap>
 
             <Label>Content</Label>
             <ContentWrap>
-                <ContentInput placeholder="Content here" textAlignVertical="top" multiline onChangeText={setContent}></ContentInput>
+                <ContentInput placeholder="Content here" textAlignVertical="top" multiline onChangeText={setContent}>{commentToEdit}</ContentInput>
             </ContentWrap>
 
             <Footer>

@@ -15,7 +15,6 @@ export function CreatePost() {
 
     function handleModalOpen(){
         setNewPostModalOpenClose(true);
-
     }   
     
     function handleModalClose(){
@@ -36,6 +35,7 @@ export function CreatePost() {
             transparent
         >
             <NewPost 
+                buttonTitle="Comment"
                 closeModal={handleModalClose}
             />
         </Modal>

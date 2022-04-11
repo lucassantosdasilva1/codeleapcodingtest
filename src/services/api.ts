@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 
-export interface PostProps {
-    username: string,
+export interface EditProps {
+    title: string,
+    content: string
+}
+export interface PostProps{
+    username: string,    
     title: string,
     content: string
 }
@@ -32,6 +36,15 @@ export async function AddPosts(data : PostProps) {
 export async function DeletePost(id : Number) {
     try {
         const {status} = await api.delete(`/${id}/`);
+        return console.log(status)
+    } catch (error) {
+        
+    }
+}
+
+export async function EditPostAPI(id : Number, data : EditProps) {
+    try {
+        const {status} = await api.patch(`/${id}/`, data);
         return console.log(status)
     } catch (error) {
         

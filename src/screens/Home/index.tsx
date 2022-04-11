@@ -24,16 +24,15 @@ export function Home() {
   const [PostsData, setPostsData] = useState<PostDTO[]>([]);
   const dispatch = useDispatch();
 
+  async function setPosts(){
+    const result = await GetPosts();
+    setPostsData(result);
+    dispatch( setPostsAction(result) )
+  }
+
   useEffect(() => {
-    async function setPosts(){
-      const result = await GetPosts();
-      setPostsData(result);
-      dispatch( setPostsAction(result) )
-    }
     setPosts()
-
-
-  },[])
+  },[PostsData])
 
 
   return (

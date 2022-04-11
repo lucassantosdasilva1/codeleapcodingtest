@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Modal, View } from 'react-native';
 
 import { PostDTO } from '../../DTO/PostDTO';
 
@@ -24,6 +24,8 @@ import {
   ContentPost,
   
 } from './styles';
+import { NewPost } from '../CreatePost/NewPost';
+import { EditPost } from '../EditPost';
 
 
 
@@ -33,24 +35,28 @@ interface Props {
 
 export function Post({data : {id, title, username, created_datetime, content}} : Props) {
     const [isSameUser, setIsSameUser] = useState<boolean>();
+    const [editModalOpenClose, setEditModalOpenClose] = useState<boolean>(false)
 
     const store = useSelector((state: RootState) => state.reducersList.userSliceReducer)
     const usernameTyped = store.username;
     const usernameAPI = username;
-
     
+    function handleDelete(id : number) {
+        DeletePost(id);
+    }
 
     function handleEdit() {
-
+        setEditModalOpenClose(true);
+    }
+    function handleModalClose() {
+        setEditModalOpenClose(false);
     }
 
     useEffect(() => {
         if( usernameTyped.toLowerCase() === usernameAPI.toLowerCase()) {
             setIsSameUser(true)    
         }
-        function handleDelete(id : number) {
-            DeletePost(id);
-        }
+       
     },[])
 
     return (
@@ -60,6 +66,7 @@ export function Post({data : {id, title, username, created_datetime, content}} :
             
             { 
                 isSameUser && 
+
                 <PostManagement>
                     <DeleteButton onPress={() => handleDelete(id)}>
                         <TrashIcon name="trash-bin" size={20} color="white"/>
@@ -68,7 +75,19 @@ export function Post({data : {id, title, username, created_datetime, content}} :
                     <EditButton onPress={handleEdit}>
                         <EditIcon name="edit" size={18} color="white"/>
                     </EditButton>
+
+                    <Modal visible={editModalOpenClose} transparent>
+                        <EditPost 
+                            buttonTitle="Edit" 
+                            closeModal={handleModalClose} 
+                            id={id}
+                            titleToEdit={title} 
+                            commentToEdit={content} 
+                        />
+                            
+                    </Modal>
                 </PostManagement> 
+
             }
         </HeaderPost>
 
