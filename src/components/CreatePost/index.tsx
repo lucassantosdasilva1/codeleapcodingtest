@@ -19,7 +19,6 @@ export function CreatePost() {
     
     function handleModalClose(){
         setNewPostModalOpenClose(false);
-        console.log(newPostModalOpenClose);
     }
   return (
     <Container>
@@ -35,7 +34,6 @@ export function CreatePost() {
             transparent
         >
             <NewPost 
-                buttonTitle="Comment"
                 closeModal={handleModalClose}
             />
         </Modal>

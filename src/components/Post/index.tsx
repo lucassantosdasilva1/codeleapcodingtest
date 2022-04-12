@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, View } from 'react-native';
 
+import { EditPost } from '../EditPost';
+
 import { PostDTO } from '../../DTO/PostDTO';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/index';
 
-import { DeletePost } from '../../services/api';
+import { DeletePostComp } from '../DeletePostComp';
 
 import {
-  Container,
-  HeaderPost,
-  Title,
-  PostManagement,
-  DeleteButton,
-  EditButton,
-  TrashIcon,
-  EditIcon,
-  ContentPostWrap,
-  HeaderContentPost,
-  Username,
-  PostDate,
-  ContentPost,
-  
+    Container,
+    HeaderPost,
+    Title,
+    PostManagement,
+    DeleteButton,
+    EditButton,
+    TrashIcon,
+    EditIcon,
+    ContentPostWrap,
+    HeaderContentPost,
+    Username,
+    PostDate,
+    ContentPost,
+
 } from './styles';
-import { NewPost } from '../CreatePost/NewPost';
-import { EditPost } from '../EditPost';
+
+
+
 
 
 
@@ -33,77 +36,89 @@ interface Props {
     data: PostDTO;
 }
 
-export function Post({data : {id, title, username, created_datetime, content}} : Props) {
+export function Post({ data: { id, title, username, created_datetime, content } }: Props) {
     const [isSameUser, setIsSameUser] = useState<boolean>();
-    const [editModalOpenClose, setEditModalOpenClose] = useState<boolean>(false)
+    const [visibleEditModal, setVisibleEditModal] = useState<boolean>(false)
+    const [visibleDeleteModal, setVisibleDeleteModal] = useState(Boolean);
 
     const store = useSelector((state: RootState) => state.reducersList.userSliceReducer)
     const usernameTyped = store.username;
     const usernameAPI = username;
-    
-    function handleDelete(id : number) {
-        DeletePost(id);
+
+    function handleModalDeleteOpen() {
+        setVisibleDeleteModal(true)
+    }
+    function handleModalDeleteClose() {
+        setVisibleDeleteModal(false)
     }
 
-    function handleEdit() {
-        setEditModalOpenClose(true);
+    function handleModalEditOpen() {
+        setVisibleEditModal(true);
     }
-    function handleModalClose() {
-        setEditModalOpenClose(false);
+
+    function handleModalEditClose() {
+        console.log("entrou handleModalEditClose")
+        setVisibleEditModal(false);
     }
 
     useEffect(() => {
-        if( usernameTyped.toLowerCase() === usernameAPI.toLowerCase()) {
-            setIsSameUser(true)    
+        if (usernameTyped.toLowerCase() === usernameAPI.toLowerCase()) {
+            setIsSameUser(true)
         }
-       
-    },[])
+
+    }, [])
 
     return (
-    <Container>
-        <HeaderPost>
-            <Title>{title}</Title>
-            
-            { 
-                isSameUser && 
+        <Container>
+            <HeaderPost>
+                <Title>{title}</Title>
 
-                <PostManagement>
-                    <DeleteButton onPress={() => handleDelete(id)}>
-                        <TrashIcon name="trash-bin" size={20} color="white"/>
-                    </DeleteButton>
+                {
+                    isSameUser &&
 
-                    <EditButton onPress={handleEdit}>
-                        <EditIcon name="edit" size={18} color="white"/>
-                    </EditButton>
+                    <PostManagement>
+                        
+                        <DeleteButton onPress={handleModalDeleteOpen}>
+                            <TrashIcon name="trash-bin" size={20} color="white" />
+                        </DeleteButton>
+                        <Modal visible={visibleDeleteModal} transparent>
+                            <DeletePostComp 
+                                id={id} 
+                                closeModal={handleModalDeleteClose}
+                            />
+                        </Modal>
 
-                    <Modal visible={editModalOpenClose} transparent>
-                        <EditPost 
-                            buttonTitle="Edit" 
-                            closeModal={handleModalClose} 
-                            id={id}
-                            titleToEdit={title} 
-                            commentToEdit={content} 
-                        />
-                            
-                    </Modal>
-                </PostManagement> 
+                        <EditButton onPress={handleModalEditOpen}>
+                            <EditIcon name="edit" size={18} color="white" />
+                        </EditButton>
+                        <Modal visible={visibleEditModal} transparent>
+                            <EditPost
+                                id={id}
+                                closeModal={handleModalEditClose}
+                                titleToEdit={title}
+                                commentToEdit={content}
+                                buttonTitle="Edit"
+                            />
+                        </Modal>
 
-            }
-        </HeaderPost>
+                    </PostManagement>
 
-        <ContentPostWrap>
-            <HeaderContentPost>
-                <Username>@{usernameAPI}</Username>
-                <PostDate>{created_datetime}</PostDate>
-            </HeaderContentPost>
+                }
+            </HeaderPost>
 
-            <ContentPost>
-                {content}
-            </ContentPost>
-        </ContentPostWrap>
+            <ContentPostWrap>
+                <HeaderContentPost>
+                    <Username>@{usernameAPI}</Username>
+                    <PostDate>{created_datetime}</PostDate>
+                </HeaderContentPost>
 
-        
+                <ContentPost>
+                    {content}
+                </ContentPost>
+            </ContentPostWrap>
+
+
         </Container>
-        
-  );
+
+    );
 }

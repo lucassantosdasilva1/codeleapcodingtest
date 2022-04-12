@@ -50,3 +50,11 @@ export async function EditPostAPI(id : Number, data : EditProps) {
         
     }
 }
+
+const id = 5043;
+const data : EditProps = {
+    title : "lucas",
+    content : "lucas"
+}
+
+EditPostAPI(id, data);

@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
     flex: 1;
     margin-top: 5px;
+    background-color: 'rgba(52, 52, 52, 0.8)';
 `;
 
 export const ContainerPostCreation = styled.View`
@@ -13,10 +14,8 @@ export const ContainerPostCreation = styled.View`
     
     padding: 15px 15px;
     margin-right: 25px;
-
     border-width: 1px;
     border-color: #808080;
-
     background-color: white;
 `;
 
@@ -33,7 +32,6 @@ export const TitleWrap = styled.View`
 `;
 
 export const ContentWrap = styled.View`
-
     border-radius: 5px
     border-width: 1px;
     border-color: #808080;
@@ -52,17 +50,14 @@ export const ContentInput = styled(TextInput)`
 export const Footer = styled.View`
     height: 30px;
     width: 100%;
-
     margin-top: 5px;
 `;
 
 export const Button = styled(TouchableOpacity)`
     height: 30px;
     border-radius: 5px;
-
     justify-content: center;
     align-items: center;
-
     background-color: #808080;
 `;
 

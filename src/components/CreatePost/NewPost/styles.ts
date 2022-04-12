@@ -1,5 +1,4 @@
-import { TouchableOpacity } from 'react-native';
-import { RectButton, TextInput } from 'react-native-gesture-handler'
+import { TextInput } from 'react-native-gesture-handler'
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -56,19 +55,4 @@ export const Footer = styled.View`
     margin-top: 5px;
 
 
-`;
-
-export const Button = styled(TouchableOpacity)`
-    height: 30px;
-    border-radius: 5px;
-
-    justify-content: center;
-    align-items: center;
-
-    background-color: #808080;
-`;
-
-
-export const ButtonText = styled.Text`
-    color: black;
 `;

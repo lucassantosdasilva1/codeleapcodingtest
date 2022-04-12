@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+
+import { Button } from '../../Button';
 import { Question } from '../styles';
+
 
 import { store, RootState } from "../../../redux/index"
 import { useSelector } from 'react-redux';
@@ -15,19 +18,18 @@ import {
   TitleInput,
   ContentInput,
   Footer,
-  Button,
-  ButtonText,
 
 } from './styles';
 
 interface Props {
-    buttonTitle: string;
     closeModal: () => void;
 }
 
-export function NewPost({closeModal, buttonTitle} : Props ) {
+export function NewPost({closeModal} : Props ) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    
+    const [buttonActive, setButtonActive] = useState<boolean>(true)
 
     const usernameTyped = useSelector((state : RootState) => state.reducersList.userSliceReducer.username)
 
@@ -41,6 +43,16 @@ export function NewPost({closeModal, buttonTitle} : Props ) {
         closeModal()
         AddPosts(dataToSent)
     }
+
+    useEffect(() => {
+        console.log("button active",buttonActive)
+        if(title.length > 3 && content.length >10){
+            console.log("entrando no if")
+            setButtonActive(false)
+        } else {setButtonActive(true)}
+
+    }, [title, content])
+    
 
     return (
     <Container>
@@ -58,9 +70,7 @@ export function NewPost({closeModal, buttonTitle} : Props ) {
             </ContentWrap>
 
             <Footer>
-                <Button onPress={() => handlePost()}>
-                    <ButtonText>{buttonTitle}</ButtonText>
-                </Button>
+                <Button changeGreyOut={buttonActive} buttonTitle="Comment" onPress={handlePost}></Button>
             </Footer>
         </ContainerPostCreation>
     </Container>
