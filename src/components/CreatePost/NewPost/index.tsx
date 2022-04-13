@@ -45,9 +45,9 @@ export function NewPost({closeModal} : Props ) {
     }
 
     useEffect(() => {
-        console.log("button active",buttonActive)
+        
         if(title.length > 3 && content.length >10){
-            console.log("entrando no if")
+            
             setButtonActive(false)
         } else {setButtonActive(true)}
 
