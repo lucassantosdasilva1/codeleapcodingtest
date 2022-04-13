@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, View } from 'react-native';
 
+import { minutesToHours } from 'date-fns/esm';
+import {differenceInDays, differenceInMinutes} from 'date-fns'
+
 import { EditPost } from '../EditPost';
 
 import { PostDTO } from '../../DTO/PostDTO';
@@ -28,26 +31,64 @@ import {
 } from './styles';
 
 
-
-
-
-
 interface Props {
     data: PostDTO;
 }
 
 export function Post({ data: { id, title, username, created_datetime, content } }: Props) {
     const [isSameUser, setIsSameUser] = useState<boolean>();
+
     const [visibleEditModal, setVisibleEditModal] = useState<boolean>(false)
     const [visibleDeleteModal, setVisibleDeleteModal] = useState(Boolean);
+
+    const [timeAgo, setTimeAgo] = useState(Number);
+    const [wordOfAgo, setWordOfAgo] = useState(String);
 
     const store = useSelector((state: RootState) => state.reducersList.userSliceReducer)
     const usernameTyped = store.username;
     const usernameAPI = username;
 
+    function calculateHoursAgo() {
+
+        
+        
+        const dateOfPost = new Date(created_datetime)
+        console.log("post",dateOfPost);
+        
+        const hoje = new Date();
+        console.log("hoje", hoje)
+        const hojeparsed = Date.parse(hoje.toString())
+        
+
+        const result = differenceInMinutes(hojeparsed, dateOfPost);
+        console.log("differenceInMinutes", result);
+
+        switch (true) {
+            case result >= 1 && result < 60:
+                setWordOfAgo("minutes ago")
+                setTimeAgo(result); 
+                break;
+            case result >= 60 && result<1440:
+                setWordOfAgo("hours ago")
+                const hours = minutesToHours(result)
+                setTimeAgo(hours)
+                break;
+            case result >= 1440:
+                setWordOfAgo("days ago")
+                const days = differenceInDays(hojeparsed, dateOfPost); 
+                console.log("dias ", days)
+                setTimeAgo(days); 
+                break;
+        }
+        
+        
+        console.log("TimeAgo ", timeAgo);
+    }
+
     function handleModalDeleteOpen() {
         setVisibleDeleteModal(true)
     }
+
     function handleModalDeleteClose() {
         setVisibleDeleteModal(false)
     }
@@ -65,6 +106,8 @@ export function Post({ data: { id, title, username, created_datetime, content } 
         if (usernameTyped.toLowerCase() === usernameAPI.toLowerCase()) {
             setIsSameUser(true)
         }
+
+        calculateHoursAgo();
 
     }, [])
 
@@ -109,7 +152,13 @@ export function Post({ data: { id, title, username, created_datetime, content } 
             <ContentPostWrap>
                 <HeaderContentPost>
                     <Username>@{usernameAPI}</Username>
-                    <PostDate>{created_datetime}</PostDate>
+                    { timeAgo < 1 ? 
+                       <PostDate>Right Now</PostDate>
+                    :
+                       <PostDate>{timeAgo} {wordOfAgo}</PostDate>
+                    
+                    }
+                    
                 </HeaderContentPost>
 
                 <ContentPost>

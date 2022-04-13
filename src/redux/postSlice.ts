@@ -8,7 +8,8 @@ const postSlice = createSlice({
         posts: [],
     },
     reducers: {
-        setPostsAction(state: any, {payload} : {payload : PostDTO[]}){
+        // setPostsAction(state: any, {payload} : {payload : PostDTO[]}){
+        setPostsAction(state: any, {payload}){
             state.posts = payload;
         }
     }

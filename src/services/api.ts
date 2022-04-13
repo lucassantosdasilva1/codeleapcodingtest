@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { PostDTO } from '../DTO/PostDTO';
 
 
 export interface EditProps {
@@ -18,7 +19,22 @@ export const api = axios.create({
 export async function GetPosts() {
     try {
         const result = await api.get("/");
-        return result.data.results;
+
+        const resultSorted : PostDTO[] = result.data.results;
+
+        resultSorted.sort((a, b) => {
+            if (a.created_datetime > b.created_datetime) {
+              return -1;
+            }
+            if (a.created_datetime < b.created_datetime) {
+              return 1;
+            }
+            // a must be equal to b
+              return 0;
+        })
+
+        return resultSorted;
+        
     } catch (error) {
         console.log(error);
     }
@@ -51,10 +67,3 @@ export async function EditPostAPI(id : Number, data : EditProps) {
     }
 }
 
-const id = 5043;
-const data : EditProps = {
-    title : "lucas",
-    content : "lucas"
-}
-
-EditPostAPI(id, data);
