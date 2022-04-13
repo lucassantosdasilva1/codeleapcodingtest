@@ -37,28 +37,30 @@ export function EditPost({ id,closeModal, buttonTitle, titleToEdit, commentToEdi
     console.log(title);
 
     const usernameTyped = useSelector((state : RootState) => state.reducersList.userSliceReducer.username)
-
     
-
-    const dataToSent : EditProps = {
+    let dataToSent : EditProps = {
         title: title,
         content: content
     }
+    
+    if(content.length == 0){
+        dataToSent = {
+            title: title,
+            content: commentToEdit!
+        }
+    }
+
+    if(title.length == 0){
+        dataToSent = {
+            title: titleToEdit!,
+            content: content
+        }
+    }
 
     function handlePost(){
-
-        // if(title.length < 1){
-        //     setTitle(titleToEdit!);
-        // }
-        // if(content == ""){
-        //     setTitle(commentToEdit!);
-        // }
-
-        console.log(id);
-        console.log(dataToSent)
         closeModal();
         EditPostAPI( id, dataToSent);
-    }
+    }    
 
     return (
     <Container>
