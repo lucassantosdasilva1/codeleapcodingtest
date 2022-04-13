@@ -33,8 +33,6 @@ export function Signup() {
 
     const {isLogged} = store;
   
-    console.log("depois ",store.username)
-
     if(isLogged){
       navigator.navigate("Home");
     }
