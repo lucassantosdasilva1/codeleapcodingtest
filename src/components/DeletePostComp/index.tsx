@@ -23,7 +23,7 @@ interface DeleteProps {
 export function DeletePostComp({id, closeModal} : DeleteProps) {
   
   function handleDelete(){
-    console.log("entrou", id);
+    
     DeletePost(id);
     closeModal()
   }
