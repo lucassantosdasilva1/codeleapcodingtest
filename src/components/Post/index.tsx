@@ -89,7 +89,7 @@ export function Post({ data: { id, title, username, created_datetime, content } 
     }
 
     function handleModalEditClose() {
-        console.log("entrou handleModalEditClose")
+        
         setVisibleEditModal(false);
     }
 
