@@ -49,19 +49,13 @@ export function Post({ data: { id, title, username, created_datetime, content } 
     const usernameAPI = username;
 
     function calculateHoursAgo() {
-
-        
-        
         const dateOfPost = new Date(created_datetime)
-        console.log("post",dateOfPost);
         
         const hoje = new Date();
-        console.log("hoje", hoje)
-        const hojeparsed = Date.parse(hoje.toString())
         
+        const hojeparsed = Date.parse(hoje.toString())
 
         const result = differenceInMinutes(hojeparsed, dateOfPost);
-        console.log("differenceInMinutes", result);
 
         switch (true) {
             case result >= 1 && result < 60:
@@ -76,13 +70,10 @@ export function Post({ data: { id, title, username, created_datetime, content } 
             case result >= 1440:
                 setWordOfAgo("days ago")
                 const days = differenceInDays(hojeparsed, dateOfPost); 
-                console.log("dias ", days)
                 setTimeAgo(days); 
                 break;
         }
-        
-        
-        console.log("TimeAgo ", timeAgo);
+       
     }
 
     function handleModalDeleteOpen() {
